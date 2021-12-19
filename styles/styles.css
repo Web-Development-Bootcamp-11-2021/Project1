@@ -1,0 +1,21 @@
+#home {
+  height: 100vh;
+}
+
+#game {
+  background-color: beige;
+  padding: 2px auto;
+}
+
+.canvas-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.controls {
+  display: flex;
+  padding: 2rem 0;
+}
