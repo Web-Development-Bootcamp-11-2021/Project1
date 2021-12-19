@@ -16,13 +16,8 @@ class Game {
 		this.gameOver = false;
 
 		//Player
-		this.player = {
-			posX: -35,
-			posY: -(100 + 82),
-			width: 70,
-			height: 79,
-			deg: 0,
-		};
+
+		this.player = new Player(); 
 
 		this.action = (e) => {
 			e.preventDefault();
@@ -43,7 +38,6 @@ class Game {
 
 				console.log("adding bullet");
 				this.bullets.push(bullet);
-				
 			} else {
 				let dist;
 				if (this.gameOver) {
@@ -90,96 +84,13 @@ class Game {
 			}
 		};
 
-		this.move = (e) => {
-			console.log("player.move()");
-			this.player.deg = Math.atan2(e.offsetX - this.cW / 2,	-(e.offsetY - this.cH / 2));
-		};
+		this.move = (e) => this.player.move(e, this.cW, this.cH);
+
 	}
 
 	update() {
 		this.cH = this.ctx.canvas.height = window.innerHeight;
 		this.cW = this.ctx.canvas.width = window.innerWidth;
-	}
-
-	fire() {
-		console.log("firing!");
-		let distance;
-
-		for (let i = 0; i < this.bullets.length; i++) {
-			if (!this.bullets[i].destroyed) {
-				this.ctx.save();
-				this.ctx.translate(this.cW / 2, this.cH / 2);
-				this.ctx.rotate(this.bullets[i].deg);
-
-				this.ctx.drawImage(
-					this.sprite,
-					211,
-					100,
-					50,
-					75,
-					this.bullets[i].x,
-					(this.bullets[i].y -= 20),
-					19,
-					30
-				);
-
-				this.ctx.restore();
-
-				//Real coords
-				this.bullets[i].realX =
-					0 - (this.bullets[i].y + 10) * Math.sin(this.bullets[i].deg);
-				this.bullets[i].realY =
-					0 + (this.bullets[i].y + 10) * Math.cos(this.bullets[i].deg);
-
-				this.bullets[i].realX += this.cW / 2;
-				this.bullets[i].realY += this.cH / 2;
-
-				//Collision
-				for (let j = 0; j < this.asteroids.length; j++) {
-					if (!this.asteroids[j].destroyed) {
-						distance = Math.sqrt(
-							Math.pow(this.asteroids[j].realX - this.bullets[i].realX, 2) +
-								Math.pow(this.asteroids[j].realY - this.bullets[i].realY, 2)
-						);
-
-						if (
-							distance <
-							this.asteroids[j].width / this.asteroids[j].size / 2 -
-								4 +
-								(19 / 2 - 4)
-						) {
-							this.destroyed += 1;
-							this.asteroids[j].destroyed = true;
-							this.bullets[i].destroyed = true;
-						}
-					}
-				}
-			}
-		}
-	}
-
-	_player() {
-		this.ctx.save();
-		this.ctx.translate(this.cW / 2, this.cH / 2);
-
-		this.ctx.rotate(this.player.deg);
-		this.ctx.drawImage(
-			this.sprite,
-			200,
-			0,
-			this.player.width,
-			this.player.height,
-			this.player.posX,
-			this.player.posY,
-			this.player.width,
-			this.player.height
-		);
-
-		this.ctx.restore();
-
-		if (this.bullets.length - this.destroyed && this.playing) {
-			this.fire();
-		}
 	}
 
 	newAsteroid() {
@@ -274,9 +185,9 @@ class Game {
 						Math.pow(this.asteroids[i].realY - this.cH / 2, 2)
 				);
 				if (
-					distance < this.asteroids[i].width / this.asteroids[i].size / 2 - 4 + 100
-				)
-				{
+					distance <
+					this.asteroids[i].width / this.asteroids[i].size / 2 - 4 + 100
+				) {
 					this.gameOver = true;
 					this.playing = false;
 					this.canvas.addEventListener("mousemove", this.action);
@@ -299,10 +210,20 @@ class Game {
 			this.ctx.beginPath();
 
 			//Player
-			this._player();
+			this.player._player(
+				this.sprite,
+				this.ctx,
+				this.cW,
+				this.cH,
+				this.bullets,
+				this.asteroids,
+				this.destroyed,
+				this.playing
+			);
 
 			if (this.playing) {
 				this._asteroids();
+
 			} else {
 				// draws Start buttom
 				this.ctx.drawImage(

@@ -7,7 +7,7 @@ class Player {
 		this.deg = 0;
 	}
 
-	draw(img, ctx, cW, cH) {
+	_player(img, ctx, cW, cH, bullets, asteroids, destroyed, playing) {
 		ctx.save();
 		ctx.translate(cW / 2, cH / 2);
 
@@ -25,6 +25,10 @@ class Player {
 		);
 
 		ctx.restore();
+
+		if (bullets.length - destroyed && playing) {
+			this.fire(img, ctx, bullets, asteroids, destroyed, cW, cH);
+		}
 	}
 
 	move(e, cW, cH) {
@@ -32,7 +36,7 @@ class Player {
 		this.deg = Math.atan2(e.offsetX - cW / 2, -(e.offsetY - cH / 2));
 	}
 
-	fire(img, ctx, bullets, destroyed, cW, cH) {
+	fire(img, ctx, bullets, asteroids, destroyed, cW, cH) {
 		var distance;
 
 		for (var i = 0; i < bullets.length; i++) {
@@ -77,7 +81,6 @@ class Player {
 							destroyed += 1;
 							asteroids[j].destroyed = true;
 							bullets[i].destroyed = true;
-							// explosions.push(asteroids[j]);
 						}
 					}
 				}
