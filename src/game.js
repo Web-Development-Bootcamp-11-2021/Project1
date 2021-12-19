@@ -30,17 +30,14 @@ class Game {
 		if (this.playing) {
 			let shot = {
 				x: -8,
-				y: -3, //y: -179,
+				y: -3,
 				sizeX: 2,
 				sizeY: 10,
 				realX: e.offsetX,
 				realY: e.offsetY,
 				dirX: e.offsetX,
 				dirY: e.offsetY,
-				deg: Math.atan2(
-					e.offsetX - this.width / 2,
-					-(e.offsetY - this.height / 2)
-				),
+				deg: Math.atan2(e.offsetX - this.width / 2,	-(e.offsetY - this.height / 2)),
 				destroyed: false,
 			};
 
@@ -49,6 +46,7 @@ class Game {
 		
 		else {
 			let dist;
+
 			if (this.gameOver) {
 				dist = Math.sqrt(
 					(e.offsetX - this.width / 2) * (e.offsetX - this.width / 2) +
@@ -59,7 +57,7 @@ class Game {
 					if (e.type == "click") {
 						this.gameOver = false;
 						this.shots = [];
-						this.obstacles = [];
+						this.obstacles = this.OBSTACLES.obstacles;
 						this.player.deg = 0;
 						this.canvas.removeEventListener("mousemove", this.move);
 						this.canvas.style.cursor = "default";
