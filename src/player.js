@@ -7,11 +7,11 @@ class Player {
 		this.deg = 0;
 	}
 
-	_player(img, ctx, cW, cH, bullets, asteroids, playing) {
+	draw(img, ctx, cW, cH, bullets, asteroids, playing) {
 		ctx.save();
-		ctx.translate(cW / 2, cH / 2);
+		ctx.translate(cW / 2, cH / 2); // Center image 50% 50%
 
-		ctx.rotate(this.deg);
+		ctx.rotate(this.deg); 
 		ctx.drawImage(
 			img,
 			200,
@@ -19,7 +19,7 @@ class Player {
 			this.width,
 			this.height,
 			this.posX,
-			0,//this.posY,
+			0,//this.posY, //0
 			this.width,
 			this.height
 		);
@@ -27,16 +27,18 @@ class Player {
 		ctx.restore();
 
 		if (bullets.length && playing) {
-			this.fire(img, ctx, bullets, asteroids, cW, cH);
+			this.shoot(img, ctx, bullets, asteroids, cW, cH);
 		}
 	}
 
 	move(e, cW, cH) {
-		console.log(e)
+		/* formula of the angle considering hor x, y traslated above =>
+		 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/atan2 */
 		this.deg = Math.atan2(e.offsetX - cW / 2, -(e.offsetY - cH / 2));
+
 	}
 
-	fire(img, ctx, bullets, asteroids, cW, cH) {
+	shoot(img, ctx, bullets, asteroids, cW, cH) {
 		var distance;
 
 		for (var i = 0; i < bullets.length; i++) {
