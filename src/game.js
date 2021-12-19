@@ -44,9 +44,10 @@ class Game {
 				destroyed: false,
 			};
 
-			//console.log("adding shot");
 			this.shots.push(shot);
-		} else {
+		}
+		
+		else {
 			let dist;
 			if (this.gameOver) {
 				dist = Math.sqrt(
@@ -62,13 +63,19 @@ class Game {
 						this.player.deg = 0;
 						this.canvas.removeEventListener("mousemove", this.move);
 						this.canvas.style.cursor = "default";
-					} else {
+					}
+					
+					else {
 						this.canvas.style.cursor = "pointer";
 					}
-				} else {
+				}
+				
+				else {
 					this.canvas.style.cursor = "default";
 				}
-			} else {
+			}
+			
+			else {
 				dist = Math.sqrt(
 					(e.offsetX - this.width / 2) * (e.offsetX - this.width / 2) +
 						(e.offsetY - this.height / 2) * (e.offsetY - this.height / 2)
@@ -80,10 +87,14 @@ class Game {
 						this.canvas.removeEventListener("mousemove", this.gameControl);
 						this.canvas.addEventListener("mousemove", this.move);
 						this.canvas.style.cursor = "default";
-					} else {
+					}
+					
+					else {
 						this.canvas.style.cursor = "pointer";
 					}
-				} else {
+				}
+				
+				else {
 					this.canvas.style.cursor = "default";
 				}
 			}
@@ -106,15 +117,11 @@ class Game {
 				this.obstacles,
 				this.playing
 			);
-
+			
+			//Obstacles
 			if (this.playing) {
 				this.OBSTACLES.generate_obstacles()
-				//this.generate_obstacles();
 			}
 		}
 	}
 }
-
-const random = (from, to) => {
-	return Math.floor(Math.random() * (to - from + 1)) + from;
-};
