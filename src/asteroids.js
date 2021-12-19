@@ -55,7 +55,7 @@ class Asteroids_constelation {
 				this.asteroids[i].realY += this.asteroids[i].coordsY;
 
 				//Game over
-				distance = Math.sqrt(
+				/* distance = Math.sqrt(
 					Math.pow(this.asteroids[i].realX - this.cW / 2, 2) +
 						Math.pow(this.asteroids[i].realY - this.cH / 2, 2)
 				);
@@ -66,7 +66,7 @@ class Asteroids_constelation {
 					this.gameOver = true;
 					this.playing = false;
 					this.canvas.addEventListener("mousemove", this.action);
-				}
+				} */
 			}
 		}
 

@@ -2,8 +2,8 @@ class Game {
 	constructor(ctx, canvas) {
 		this.canvas = canvas;
 		this.ctx = ctx;
-		this.sprite = new Image();
-		this.sprite.src = "../assets/sprite_bj90k9.png";
+		this.img = new Image();
+		this.img.src = "../assets/sprite_bj90k9.png";
 
 		this.cH = this.ctx.canvas.height = window.innerHeight;
 		this.cW = this.ctx.canvas.width = window.innerWidth;
@@ -11,7 +11,7 @@ class Game {
 		//Game
 		this.bullets = [];
 		this.asteroids = [];
-		this.destroyed = 0;
+		//this.destroyed = 0;
 		this.playing = false;
 		this.gameOver = false;
 
@@ -25,7 +25,7 @@ class Game {
 			if (this.playing) {
 				let bullet = {
 					x: -8,
-					y: -179,
+					y: -3,//y: -179,
 					sizeX: 2,
 					sizeY: 10,
 					realX: e.offsetX,
@@ -36,7 +36,7 @@ class Game {
 					destroyed: false,
 				};
 
-				console.log("adding bullet");
+				//console.log("adding bullet");
 				this.bullets.push(bullet);
 			} else {
 				let dist;
@@ -52,7 +52,7 @@ class Game {
 							this.count = 0;
 							this.bullets = [];
 							this.asteroids = [];
-							this.destroyed = 0;
+							//this.destroyed = 0;
 							this.player.deg = 0;
 							this.canvas.removeEventListener("mousemove", this.move);
 							this.canvas.style.cursor = "default";
@@ -134,7 +134,7 @@ class Game {
 			destroyed: false,
 		};
 
-		console.log("adding asteroid");
+		//console.log("adding asteroid");
 		this.asteroids.push(asteroid);
 	}
 
@@ -151,7 +151,7 @@ class Game {
 				this.ctx.rotate(this.asteroids[i].deg);
 
 				this.ctx.drawImage(
-					this.sprite,
+					this.img,
 					this.asteroids[i].x,
 					this.asteroids[i].y,
 					this.asteroids[i].width,
@@ -180,7 +180,7 @@ class Game {
 				this.asteroids[i].realY += this.asteroids[i].coordsY;
 
 				//Game over
-				distance = Math.sqrt(
+				/* distance = Math.sqrt(
 					Math.pow(this.asteroids[i].realX - this.cW / 2, 2) +
 						Math.pow(this.asteroids[i].realY - this.cH / 2, 2)
 				);
@@ -191,13 +191,12 @@ class Game {
 					this.gameOver = true;
 					this.playing = false;
 					this.canvas.addEventListener("mousemove", this.action);
-				}
+				} */
 			}
 		}
 
 		if (
-			this.asteroids.length - this.destroyed <
-			10 + Math.floor(this.destroyed / 6)
+			this.asteroids.length < 10
 		) {
 			this.newAsteroid();
 		}
@@ -211,13 +210,13 @@ class Game {
 
 			//Player
 			this.player._player(
-				this.sprite,
+				this.img,
 				this.ctx,
 				this.cW,
 				this.cH,
 				this.bullets,
 				this.asteroids,
-				this.destroyed,
+				//this.destroyed,
 				this.playing
 			);
 
@@ -227,7 +226,7 @@ class Game {
 			} else {
 				// draws Start buttom
 				this.ctx.drawImage(
-					this.sprite,
+					this.img,
 					428,
 					12,
 					70,
