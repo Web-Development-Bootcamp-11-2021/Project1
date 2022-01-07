@@ -7,9 +7,9 @@ class Player {
 		this.deg = 0;
 	}
 
-	draw(img, ctx, cW, cH, bullets, asteroids, playing) {
+	draw(img, ctx, width, height, bullets, obstacles, playing) {
 		ctx.save();
-		ctx.translate(cW / 2, cH / 2); // Center image 50% 50%
+		ctx.translate(width / 2, height / 2); // Center image 50% 50%
 
 		ctx.rotate(this.deg); 
 		ctx.drawImage(
@@ -27,24 +27,24 @@ class Player {
 		ctx.restore();
 
 		if (bullets.length && playing) {
-			this.shoot(img, ctx, bullets, asteroids, cW, cH);
+			this.shoot(img, ctx, bullets, obstacles, width, height);
 		}
 	}
 
-	move(e, cW, cH) {
+	move(e, width, height) {
 		/* formula of the angle considering hor x, y traslated above =>
 		 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/atan2 */
-		this.deg = Math.atan2(e.offsetX - cW / 2, -(e.offsetY - cH / 2));
+		this.deg = Math.atan2(e.offsetX - width / 2, -(e.offsetY - height / 2));
 
 	}
 
-	shoot(img, ctx, bullets, asteroids, cW, cH) {
+	shoot(img, ctx, bullets, obstacles, width, height) {
 		var distance;
 
 		for (var i = 0; i < bullets.length; i++) {
 			if (!bullets[i].destroyed) {
 				ctx.save();
-				ctx.translate(cW / 2, cH / 2);
+				ctx.translate(width / 2, height / 2);
 				ctx.rotate(bullets[i].deg);
 
 				ctx.drawImage(
@@ -65,23 +65,23 @@ class Player {
 				bullets[i].realX = 0 - (bullets[i].y + 10) * Math.sin(bullets[i].deg);
 				bullets[i].realY = 0 + (bullets[i].y + 10) * Math.cos(bullets[i].deg);
 
-				bullets[i].realX += cW / 2;
-				bullets[i].realY += cH / 2;
+				bullets[i].realX += width / 2;
+				bullets[i].realY += height / 2;
 
 				//Collision
-				for (var j = 0; j < asteroids.length; j++) {
-					if (!asteroids[j].destroyed) {
+				for (var j = 0; j < obstacles.length; j++) {
+					if (!obstacles[j].destroyed) {
 						distance = Math.sqrt(
-							Math.pow(asteroids[j].realX - bullets[i].realX, 2) +
-								Math.pow(asteroids[j].realY - bullets[i].realY, 2)
+							Math.pow(obstacles[j].realX - bullets[i].realX, 2) +
+								Math.pow(obstacles[j].realY - bullets[i].realY, 2)
 						);
 
 						if (
 							distance <
-							asteroids[j].width / asteroids[j].size / 2 - 4 + (19 / 2 - 4)
+							obstacles[j].width / obstacles[j].size / 2 - 4 + (19 / 2 - 4)
 						) {
 							//destroyed += 1;
-							asteroids[j].destroyed = true;
+							obstacles[j].destroyed = true;
 							bullets[i].destroyed = true;
 						}
 					}

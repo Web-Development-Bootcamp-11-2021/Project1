@@ -14,13 +14,16 @@ class Game {
 		this.playing = false;
 		this.gameOver = false;
 
+		//Background
+		this.background = new Background(ctx);
+
 		//Player
 		this.player = new Player();
 		this.gameControl = (e) => this.controls(e);
 		this.move = (e) => this.player.move(e, this.width, this.height);
 
 		//Obstacles
-		this.OBSTACLES = new Obstacles(this.ctx,this.img, this.width, this.height)
+		this.OBSTACLES = new Obstacles(this.ctx, this.img, this.width, this.height);
 		this.obstacles = this.OBSTACLES.obstacles;
 	}
 
@@ -37,14 +40,15 @@ class Game {
 				realY: e.offsetY,
 				dirX: e.offsetX,
 				dirY: e.offsetY,
-				deg: Math.atan2(e.offsetX - this.width / 2,	-(e.offsetY - this.height / 2)),
+				deg: Math.atan2(
+					e.offsetX - this.width / 2,
+					-(e.offsetY - this.height / 2)
+				),
 				destroyed: false,
 			};
 
 			this.shots.push(shot);
-		}
-		
-		else {
+		} else {
 			let dist;
 
 			if (this.gameOver) {
@@ -61,19 +65,13 @@ class Game {
 						this.player.deg = 0;
 						this.canvas.removeEventListener("mousemove", this.move);
 						this.canvas.style.cursor = "default";
-					}
-					
-					else {
+					} else {
 						this.canvas.style.cursor = "pointer";
 					}
-				}
-				
-				else {
+				} else {
 					this.canvas.style.cursor = "default";
 				}
-			}
-			
-			else {
+			} else {
 				dist = Math.sqrt(
 					(e.offsetX - this.width / 2) * (e.offsetX - this.width / 2) +
 						(e.offsetY - this.height / 2) * (e.offsetY - this.height / 2)
@@ -85,14 +83,10 @@ class Game {
 						this.canvas.removeEventListener("mousemove", this.gameControl);
 						this.canvas.addEventListener("mousemove", this.move);
 						this.canvas.style.cursor = "default";
-					}
-					
-					else {
+					} else {
 						this.canvas.style.cursor = "pointer";
 					}
-				}
-				
-				else {
+				} else {
 					this.canvas.style.cursor = "default";
 				}
 			}
@@ -105,6 +99,9 @@ class Game {
 			this.ctx.clearRect(0, 0, this.width, this.height);
 			this.ctx.beginPath();
 
+			// Background
+			this.background.draw()
+
 			//Player
 			this.player.draw(
 				this.img,
@@ -115,10 +112,15 @@ class Game {
 				this.obstacles,
 				this.playing
 			);
-			
+
 			//Obstacles
 			if (this.playing) {
-				this.OBSTACLES.generate_obstacles()
+				this.OBSTACLES.generate_obstacles();
+				if (this.OBSTACLES.collided) {
+					this.gameOver = true;
+					this.playing = false;
+					this.canvas.addEventListener("mousemove", this.gameControl);
+				}
 			}
 		}
 	}
