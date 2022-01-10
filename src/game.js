@@ -104,7 +104,6 @@ class Game {
 			// Background
 			this.background.draw()
 
-			console.log(this.playing)
 			//Player
 			this.player.draw(
 				this.img,
