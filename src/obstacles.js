@@ -48,19 +48,21 @@ class Obstacles {
 				this.obstacles[i].realX += this.obstacles[i].coordsX;
 				this.obstacles[i].realY += this.obstacles[i].coordsY;
 
-				//Game over
-				distance = Math.sqrt(Math.pow(this.obstacles[i].realX -  this.width/2, 2) + Math.pow(this.obstacles[i].realY - this.height/2, 2));
-				if (distance < (((this.obstacles[i].width / this.obstacles[i].size) / 2) - 4) + 100) {
-
-						this.collided = true
-						/* gameOver = true;
-						playing  = false;
-						canvas.addEventListener('mousemove', controls); */
-				}
+				/* //Game over
+				distance = Math.sqrt(
+					Math.pow(this.obstacles[i].realX - this.width / 2, 2) +
+						Math.pow(this.obstacles[i].realY - this.height / 2, 2)
+				);
+				if (
+					distance <
+					this.obstacles[i].width / this.obstacles[i].size / 2 - 4 + 100
+				) {
+					this.collided = true;
+				} */
 			}
 		}
 
-		if (this.obstacles.length < 15) {
+		if (this.obstacles.length < 50) {
 			this.create_obstacle();
 		}
 

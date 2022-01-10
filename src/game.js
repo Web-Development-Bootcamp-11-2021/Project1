@@ -7,6 +7,8 @@ class Game {
 
 		this.height = this.ctx.canvas.height = window.innerHeight;
 		this.width = this.ctx.canvas.width = window.innerWidth;
+		console.log(this.width)
+		console.log(this.height)
 
 		//Game
 		this.shots = [];
@@ -102,6 +104,7 @@ class Game {
 			// Background
 			this.background.draw()
 
+			console.log(this.playing)
 			//Player
 			this.player.draw(
 				this.img,
