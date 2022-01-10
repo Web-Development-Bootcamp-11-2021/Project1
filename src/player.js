@@ -35,8 +35,8 @@ class Player {
 		/* formula of the angle considering hor x, y traslated above =>
 		 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/atan2 */
 		this.deg = Math.atan2(e.offsetX - width / 2, -(e.offsetY - height / 2));
-		console.log(e.offsetX, e.offsetY)
-		console.log(e.offsetX - width, -(e.offsetY - height))
+		/* console.log(e.offsetX, e.offsetY)
+		console.log(e.offsetX - width, -(e.offsetY - height)) */
 	}
 
 	shoot(img, ctx, bullets, obstacles, width, height) {
